@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Weather App</string>
+    <string name="temperature_text">Temperature</string>
+    <string name="feels_like">Feels like</string>
 </resources>

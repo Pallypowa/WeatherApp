@@ -31,6 +31,7 @@ class ParseWeatherData(private val listener: OnDataAvailable) : AsyncTask<String
                 val mainJson = listArray.getJSONObject(i).getJSONObject("main")
                 val temp: Float = mainJson.getString("temp").toFloat()
                 val humidity: Int = mainJson.getString("humidity").toInt()
+                val feelsLike: Float = mainJson.getString("feels_like").toFloat()
 
                 // "weather" Object from Json
                 val weatherJsonArray = listArray.getJSONObject(i).getJSONArray("weather")
@@ -42,7 +43,7 @@ class ParseWeatherData(private val listener: OnDataAvailable) : AsyncTask<String
                 val windJson = listArray.getJSONObject(i).getJSONObject("wind")
                 val windSpeed: Float = windJson.getString("speed").toFloat()
 
-                val tempData = MainTempData(temp,humidity,weatherType,description,windSpeed)
+                val tempData = MainTempData(temp,feelsLike, humidity, weatherType, description, windSpeed)
                 Log.d(TAG, "doInBackground: data $tempData")
                 cityDatas.addWeatherData(tempData)
             }
