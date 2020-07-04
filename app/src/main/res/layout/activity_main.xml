@@ -6,118 +6,123 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <TextView
-        android:id="@+id/degreesFeelsLike"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:textSize="40sp"
-        android:textStyle="italic"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView2"
-        app:layout_constraintEnd_toStartOf="@+id/imageView2"
-        app:layout_constraintTop_toTopOf="@+id/imageView2"
-        tools:text="16 °C" />
 
-    <TextView
-        android:id="@+id/cityName"
-        android:layout_width="wrap_content"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView3"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="40dp"
-        android:layout_marginEnd="16dp"
-        android:textSize="40sp"
-        android:textStyle="bold|italic"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="Budapest" />
-
-    <TextView
-        android:id="@+id/weatherMain"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="@+id/cityName"
-        app:layout_constraintStart_toStartOf="@+id/cityName"
-        app:layout_constraintTop_toBottomOf="@+id/cityName"
-        tools:text="Clouds" />
-
-    <TextView
-        android:id="@+id/weatherDescription"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:textStyle="italic"
-        app:layout_constraintEnd_toEndOf="@+id/weatherMain"
-        app:layout_constraintStart_toStartOf="@+id/weatherMain"
-        app:layout_constraintTop_toBottomOf="@+id/weatherMain"
-        tools:text="Mostly cloudy" />
-
-    <TextView
-        android:id="@+id/degreesCelsius"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:textSize="40sp"
-        android:textStyle="italic"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
-        app:layout_constraintTop_toTopOf="@+id/imageView"
-        tools:text="16 °C" />
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginEnd="8dp"
+        app:cardCornerRadius="10sp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/weatherDescription"
-        app:layout_constraintVertical_bias="0.35000002"
-        app:srcCompat="@drawable/temperature"
-        android:contentDescription="TODO" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="70dp"
-        android:layout_marginEnd="16dp"
-        android:text="@string/temperature_text"
-        android:textSize="20sp"
-        android:textStyle="bold|italic"
-        app:layout_constraintEnd_toEndOf="@+id/degreesCelsius"
-        app:layout_constraintStart_toStartOf="@+id/imageView"
-        app:layout_constraintTop_toTopOf="@+id/imageView" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="251dp">
 
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+            <TextView
+                android:id="@+id/cityName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:textSize="18sp"
+                android:textStyle="bold|italic"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/dayDate"
+                tools:text="Budapest" />
+
+            <TextView
+                android:id="@+id/weatherMain"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:textSize="22sp"
+                app:layout_constraintEnd_toEndOf="@+id/degreesCelsius"
+                app:layout_constraintStart_toStartOf="@+id/degreesCelsius"
+                app:layout_constraintTop_toBottomOf="@+id/degreesCelsius"
+                tools:text="Description" />
+
+            <TextView
+                android:id="@+id/weatherDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="8dp"
+                android:textSize="16sp"
+                android:textStyle="italic"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/weatherMain"
+                app:layout_constraintStart_toStartOf="@+id/weatherMain"
+                app:layout_constraintTop_toBottomOf="@+id/weatherMain"
+                tools:text="Max temp and wind" />
+
+            <TextView
+                android:id="@+id/degreesCelsius"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="60sp"
+                android:textStyle="italic"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="16 °C" />
+
+            <TextView
+                android:id="@+id/dayDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:textSize="16sp"
+                android:textStyle="italic"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="2020-07-14" />
+
+            <ImageView
+                android:id="@+id/todayImageView"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:scaleType="fitEnd"
+                app:layout_constraintBottom_toTopOf="@+id/degreesCelsius"
+                app:layout_constraintEnd_toEndOf="@+id/degreesCelsius"
+                app:layout_constraintStart_toStartOf="@+id/degreesCelsius"
+                app:srcCompat="@drawable/temperature" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
+    <include
+        android:id="@+id/daysWidget"
+        layout="@layout/weather_by_days"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/weatherDescription"
-        app:layout_constraintVertical_bias="0.35000002"
-        app:srcCompat="@drawable/feels_like" />
+        app:layout_constraintHorizontal_bias="0.71"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardView3" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="70dp"
-        android:layout_marginEnd="16dp"
-        android:text="@string/feels_like"
-        android:textSize="20sp"
-        android:textStyle="bold|italic"
-        app:layout_constraintEnd_toEndOf="@+id/imageView2"
-        app:layout_constraintStart_toStartOf="@+id/degreesFeelsLike"
-        app:layout_constraintTop_toTopOf="@+id/imageView2" />
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/powered_by"
+        android:textSize="12sp"
+        android:textStyle="italic"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/daysWidget"
+        app:layout_constraintStart_toStartOf="@+id/daysWidget"
+        app:layout_constraintTop_toBottomOf="@+id/daysWidget" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

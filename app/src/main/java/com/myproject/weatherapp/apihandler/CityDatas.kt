@@ -6,5 +6,6 @@ class CityDatas(var cityName: String = "Unknown") {
         weatherDatas.add(data)
     }
     fun getWeatherData(index: Int) = weatherDatas[index]
-
+    fun getWeatherDataSize() = weatherDatas.size
+    fun getAllDAta() = weatherDatas
 }

@@ -1,12 +1,16 @@
 package com.myproject.weatherapp.jsonparser
 
 import android.os.AsyncTask
+import android.os.Build
 import android.util.Log
+import androidx.annotation.RequiresApi
 import com.myproject.weatherapp.apihandler.CityDatas
 import com.myproject.weatherapp.apihandler.MainTempData
 import org.json.JSONException
 import org.json.JSONObject
 import java.lang.Exception
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 class ParseWeatherData(private val listener: OnDataAvailable) : AsyncTask<String, Void, CityDatas>() {
     private val TAG = "ParseWeatherData"
@@ -15,6 +19,7 @@ class ParseWeatherData(private val listener: OnDataAvailable) : AsyncTask<String
         fun onDataAvailable(data: CityDatas)
         fun onError(exception: Exception)
     }
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun doInBackground(vararg params: String?): CityDatas {
         Log.d(TAG, "doInBackground: starts")
         var cityDatas = CityDatas()
@@ -32,19 +37,26 @@ class ParseWeatherData(private val listener: OnDataAvailable) : AsyncTask<String
                 val temp: Float = mainJson.getString("temp").toFloat()
                 val humidity: Int = mainJson.getString("humidity").toInt()
                 val feelsLike: Float = mainJson.getString("feels_like").toFloat()
+                val tempMax: Float = mainJson.getString("temp_max").toFloat()
 
                 // "weather" Object from Json
                 val weatherJsonArray = listArray.getJSONObject(i).getJSONArray("weather")
                 val weatherJson = weatherJsonArray.getJSONObject(0)
                 val weatherType: String = weatherJson.getString("main")
                 val description: String = weatherJson.getString("description")
+                val icon: String = weatherJson.getString("icon")
 
                 // "wind" Object from Json
                 val windJson = listArray.getJSONObject(i).getJSONObject("wind")
                 val windSpeed: Float = windJson.getString("speed").toFloat()
 
-                val tempData = MainTempData(temp,feelsLike, humidity, weatherType, description, windSpeed)
-                Log.d(TAG, "doInBackground: data $tempData")
+                // "dt_txt" from Json
+                val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+                //Log.d(TAG, "doInBackground: ${listArray.getJSONObject(i).getString("dt_txt")}")
+                val time = LocalDateTime.parse(listArray.getJSONObject(i).getString("dt_txt"), formatter)
+                val tempData = MainTempData(temp,tempMax, feelsLike, humidity, weatherType, description, windSpeed, time, icon)
+                Log.d(TAG, "doInBackground: $tempData")
+                //Log.d(TAG, "doInBackground: data $tempData")
                 cityDatas.addWeatherData(tempData)
             }
         } catch (e: JSONException) {

@@ -1,6 +1,7 @@
 package com.myproject.weatherapp.apihandler
 
-import java.sql.Time
+import java.time.LocalDateTime
 
-data class MainTempData(val temp: Float, val feelsLike: Float, val humidity: Int, val weatherType: String,
-    val description: String, val windSpeed: Float) //TODO : Add val time: Time later
+data class MainTempData(val temp: Float, val tempMax: Float, val feelsLike: Float, val humidity: Int, val weatherType: String,
+    val description: String, val windSpeed: Float, val time: LocalDateTime, val icon: String
+)

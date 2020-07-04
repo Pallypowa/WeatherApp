@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView1"
+        android:layout_width="40dp"
+        android:layout_height="120dp"
+        android:layout_margin="8dp"
+        android:layout_weight="1"
+        app:cardCornerRadius="20dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/day1ID"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:text="TextView"
+                android:textAlignment="center" />
+
+            <ImageView
+                android:id="@+id/imageView1"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/loading" />
+
+            <TextView
+                android:id="@+id/temperatureDay1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="TextView"
+                android:textAlignment="center" />
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="40dp"
+        android:layout_height="120dp"
+        android:layout_margin="8dp"
+        android:layout_weight="1"
+        app:cardCornerRadius="20dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/day2ID"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:text="TextView"
+                android:textAlignment="center" />
+
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/loading" />
+
+            <TextView
+                android:id="@+id/temperatureDay2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="TextView"
+                android:textAlignment="center" />
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="40dp"
+        android:layout_height="120dp"
+        android:layout_margin="8dp"
+        android:layout_weight="1"
+        app:cardCornerRadius="20dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/day3ID"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:text="TextView"
+                android:textAlignment="center" />
+
+            <ImageView
+                android:id="@+id/imageView3"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/loading" />
+
+            <TextView
+                android:id="@+id/temperatureDay3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="TextView"
+                android:textAlignment="center" />
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="40dp"
+        android:layout_height="120dp"
+        android:layout_margin="8dp"
+        android:layout_weight="1"
+        app:cardCornerRadius="20dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/day4ID"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:text="TextView"
+                android:textAlignment="center" />
+
+            <ImageView
+                android:id="@+id/imageView4"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/loading" />
+
+            <TextView
+                android:id="@+id/temperatureDay4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="TextView"
+                android:textAlignment="center" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="40dp"
+        android:layout_height="120dp"
+        android:layout_margin="8dp"
+        android:layout_weight="1"
+        app:cardCornerRadius="20dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/day5ID"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:text="TextView"
+                android:textAlignment="center" />
+
+            <ImageView
+                android:id="@+id/imageView5"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/loading" />
+
+            <TextView
+                android:id="@+id/temperatureDay5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="TextView"
+                android:textAlignment="center" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+</LinearLayout>

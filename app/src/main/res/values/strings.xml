@@ -2,4 +2,6 @@
     <string name="app_name">Weather App</string>
     <string name="temperature_text">Temperature</string>
     <string name="feels_like">Feels like</string>
+    <string name="today_text">today</string>
+    <string name="powered_by">Powered by Pallypowa</string>
 </resources>
