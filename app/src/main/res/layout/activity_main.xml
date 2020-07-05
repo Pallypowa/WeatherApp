@@ -8,7 +8,7 @@
 
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cardView3"
+        android:id="@+id/mainCardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -21,79 +21,186 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="251dp">
+            android:layout_height="match_parent">
 
-            <TextView
-                android:id="@+id/cityName"
-                android:layout_width="wrap_content"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:textSize="18sp"
-                android:textStyle="bold|italic"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/dayDate"
-                tools:text="Budapest" />
-
-            <TextView
-                android:id="@+id/weatherMain"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:textSize="22sp"
-                app:layout_constraintEnd_toEndOf="@+id/degreesCelsius"
-                app:layout_constraintStart_toStartOf="@+id/degreesCelsius"
-                app:layout_constraintTop_toBottomOf="@+id/degreesCelsius"
-                tools:text="Description" />
-
-            <TextView
-                android:id="@+id/weatherDescription"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="8dp"
-                android:textSize="16sp"
-                android:textStyle="italic"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@+id/weatherMain"
-                app:layout_constraintStart_toStartOf="@+id/weatherMain"
-                app:layout_constraintTop_toBottomOf="@+id/weatherMain"
-                tools:text="Max temp and wind" />
-
-            <TextView
-                android:id="@+id/degreesCelsius"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="60sp"
-                android:textStyle="italic"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="16 °C" />
+                app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
-                android:id="@+id/dayDate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:textSize="16sp"
-                android:textStyle="italic"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="2020-07-14" />
+                <TextView
+                    android:id="@+id/cityName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:textSize="18sp"
+                    android:textStyle="bold|italic"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/dayDate"
+                    tools:text="Budapest" />
 
-            <ImageView
-                android:id="@+id/todayImageView"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:scaleType="fitEnd"
-                app:layout_constraintBottom_toTopOf="@+id/degreesCelsius"
-                app:layout_constraintEnd_toEndOf="@+id/degreesCelsius"
-                app:layout_constraintStart_toStartOf="@+id/degreesCelsius"
-                app:srcCompat="@drawable/temperature" />
+                <TextView
+                    android:id="@+id/weatherMain"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:textSize="22sp"
+                    app:layout_constraintEnd_toEndOf="@+id/degreesCelsius"
+                    app:layout_constraintStart_toStartOf="@+id/degreesCelsius"
+                    app:layout_constraintTop_toBottomOf="@+id/degreesCelsius"
+                    tools:text="Description" />
+
+                <TextView
+                    android:id="@+id/weatherDescription"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="16dp"
+                    android:textSize="16sp"
+                    android:textStyle="italic"
+                    app:layout_constraintBottom_toTopOf="@id/mainDropDown"
+                    app:layout_constraintEnd_toEndOf="@+id/weatherMain"
+                    app:layout_constraintStart_toStartOf="@+id/weatherMain"
+                    app:layout_constraintTop_toBottomOf="@+id/weatherMain"
+                    tools:text="Max temp and wind" />
+
+                <TextView
+                    android:id="@+id/degreesCelsius"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:textSize="60sp"
+                    android:textStyle="italic"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.498"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/todayImageView"
+                    tools:text="16 °C" />
+
+                <TextView
+                    android:id="@+id/dayDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:textSize="16sp"
+                    android:textStyle="italic"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="2020-07-14" />
+
+                <ImageView
+                    android:id="@+id/todayImageView"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="24dp"
+                    android:scaleType="fitEnd"
+                    app:layout_constraintBottom_toTopOf="@+id/degreesCelsius"
+                    app:layout_constraintEnd_toEndOf="@+id/degreesCelsius"
+                    app:layout_constraintStart_toStartOf="@+id/degreesCelsius"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/temperature" />
+
+                <ImageView
+                    android:id="@+id/dropDownArrow"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:contentDescription="TODO"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/dropdown_down_24" />
+
+                <LinearLayout
+                    android:id="@+id/mainDropDown"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="16dp"
+                    android:orientation="vertical"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/weatherDescription">
+
+                    <LinearLayout
+                        android:id="@+id/dropDown1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="16dp"
+                        android:orientation="horizontal"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.498"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/weatherDescription">
+
+                        <TextView
+                            android:id="@+id/textPressure"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="DummyText1"
+                            android:textAlignment="center"
+                            tools:text="Pressure:" />
+
+                        <TextView
+                            android:id="@+id/textHumidity"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="DummyText2"
+                            android:textAlignment="center"
+                            tools:text="Humidity:" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/dropDown2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="16dp"
+                        android:orientation="horizontal"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.498"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/dropDown1">
+
+                        <TextView
+                            android:id="@+id/textSomething1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="DummyText3"
+                            android:textAlignment="center"
+                            tools:text="Pressure:" />
+
+                        <TextView
+                            android:id="@+id/textSomething2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="DummyText4"
+                            android:textAlignment="center"
+                            tools:text="Humidity:" />
+                    </LinearLayout>
+                </LinearLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
+
     </androidx.cardview.widget.CardView>
 
     <include
@@ -109,7 +216,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.71"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardView3" />
+        app:layout_constraintTop_toBottomOf="@+id/mainCardView" />
 
     <TextView
         android:id="@+id/textView"

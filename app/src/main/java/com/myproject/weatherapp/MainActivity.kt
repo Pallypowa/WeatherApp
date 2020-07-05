@@ -1,11 +1,16 @@
 package com.myproject.weatherapp
 
+import android.opengl.Visibility
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.transition.AutoTransition
+import android.transition.TransitionManager
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import com.myproject.weatherapp.apihandler.CityDatas
 import com.myproject.weatherapp.apihandler.DownloadStatus
@@ -27,14 +32,31 @@ class MainActivity : AppCompatActivity(), GetWeatherData.OnDownloadComplete,
     private val DESC_TEXT = "The high today will be %d$CELSIUS with winds at "
 
     private var downloader: GetWeatherData? = null
+
     private var apiCachedUrl = ""
     private var apiUrl =
         "https://api.openweathermap.org/data/2.5/forecast?q=Budapest&appid=23c0b25438e4564dc253352dff80e09c&units=metric" // Default is Budapest
     private var iconUrl = "https://openweathermap.org/img/wn/%s@2x.png"
 
+
+    @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        mainCardView.setOnClickListener {
+            if (mainDropDown.visibility == View.GONE) {
+                TransitionManager.beginDelayedTransition(mainCardView, AutoTransition())
+                mainDropDown.visibility = View.VISIBLE
+                dropDownArrow.setImageResource(R.drawable.dropdown_up_24)
+            } else {
+                TransitionManager.beginDelayedTransition(mainCardView, AutoTransition())
+                mainDropDown.visibility = View.GONE
+                TransitionManager.endTransitions(mainCardView)
+                TransitionManager.beginDelayedTransition(daysWidget as ViewGroup, AutoTransition())
+                dropDownArrow.setImageResource(R.drawable.dropdown_down_24)
+            }
+        }
 
         downloadUrl(apiUrl)
     }
