@@ -1,6 +1,7 @@
 package com.myproject.weatherapp.apihandler
 
 import android.os.AsyncTask
+import android.util.Log
 import java.lang.Exception
 import java.net.URL
 
@@ -11,9 +12,10 @@ enum class DownloadStatus {
 class GetWeatherData(private val listener:OnDownloadComplete) : AsyncTask<String, Void, String>() {
     private val TAG = "GetWeatherData"
     private var status: DownloadStatus = DownloadStatus.IDLE
+    private val type = "WeatherData"
 
     interface OnDownloadComplete {
-        fun onDownloadComplete(result: String, status: DownloadStatus)
+        fun onDownloadComplete(result: String, status: DownloadStatus, type: String)
     }
 
     override fun doInBackground(vararg params: String?): String {
@@ -32,7 +34,7 @@ class GetWeatherData(private val listener:OnDownloadComplete) : AsyncTask<String
 
     override fun onPostExecute(result: String) {
         super.onPostExecute(result)
-        //Log.d(TAG, "onPostExecute: $result")
-        listener.onDownloadComplete(result, status)
+        Log.d(TAG, "onPostExecute: $result")
+        listener.onDownloadComplete(result, status, type)
     }
 }

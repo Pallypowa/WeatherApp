@@ -38,6 +38,7 @@ class ParseWeatherData(private val listener: OnDataAvailable) : AsyncTask<String
                 val humidity: Int = mainJson.getString("humidity").toInt()
                 val feelsLike: Float = mainJson.getString("feels_like").toFloat()
                 val tempMax: Float = mainJson.getString("temp_max").toFloat()
+                val pressure: Int = mainJson.getString("pressure").toInt()
 
                 // "weather" Object from Json
                 val weatherJsonArray = listArray.getJSONObject(i).getJSONArray("weather")
@@ -51,11 +52,24 @@ class ParseWeatherData(private val listener: OnDataAvailable) : AsyncTask<String
                 val windSpeed: Float = windJson.getString("speed").toFloat()
 
                 // "dt_txt" from Json
-                val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+                val formatter: DateTimeFormatter =
+                    DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
                 //Log.d(TAG, "doInBackground: ${listArray.getJSONObject(i).getString("dt_txt")}")
-                val time = LocalDateTime.parse(listArray.getJSONObject(i).getString("dt_txt"), formatter)
-                val tempData = MainTempData(temp,tempMax, feelsLike, humidity, weatherType, description, windSpeed, time, icon)
-                Log.d(TAG, "doInBackground: $tempData")
+                val time =
+                    LocalDateTime.parse(listArray.getJSONObject(i).getString("dt_txt"), formatter)
+                val tempData = MainTempData(
+                    temp,
+                    tempMax,
+                    feelsLike,
+                    humidity,
+                    weatherType,
+                    description,
+                    windSpeed,
+                    time,
+                    icon,
+                    pressure
+                )
+                //Log.d(TAG, "doInBackground: $tempData")
                 //Log.d(TAG, "doInBackground: data $tempData")
                 cityDatas.addWeatherData(tempData)
             }

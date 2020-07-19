@@ -17,7 +17,8 @@
         app:cardCornerRadius="10sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="visible">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -45,7 +46,6 @@
                     android:id="@+id/weatherMain"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
                     android:textSize="22sp"
                     app:layout_constraintEnd_toEndOf="@+id/degreesCelsius"
                     app:layout_constraintStart_toStartOf="@+id/degreesCelsius"
@@ -70,14 +70,13 @@
                     android:id="@+id/degreesCelsius"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
                     android:textSize="60sp"
                     android:textStyle="italic"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.498"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/todayImageView"
-                    tools:text="16 °C" />
+                    tools:text="DUMMY" />
 
                 <TextView
                     android:id="@+id/dayDate"
@@ -95,12 +94,11 @@
                     android:id="@+id/todayImageView"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:layout_marginTop="24dp"
                     android:scaleType="fitEnd"
                     app:layout_constraintBottom_toTopOf="@+id/degreesCelsius"
                     app:layout_constraintEnd_toEndOf="@+id/degreesCelsius"
                     app:layout_constraintStart_toStartOf="@+id/degreesCelsius"
-                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/cityName"
                     app:srcCompat="@drawable/temperature" />
 
                 <ImageView
@@ -135,7 +133,7 @@
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="16dp"
                         android:layout_marginEnd="16dp"
-                        android:layout_marginBottom="16dp"
+                        android:layout_marginBottom="0dp"
                         android:orientation="horizontal"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -143,14 +141,30 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/weatherDescription">
 
+                        <ImageView
+                            android:id="@+id/imageView"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_marginRight="8dp"
+                            android:layout_weight="0"
+                            app:srcCompat="@drawable/pressure_icon" />
+
                         <TextView
                             android:id="@+id/textPressure"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="DummyText1"
-                            android:textAlignment="center"
-                            tools:text="Pressure:" />
+                            android:textAlignment="textStart"
+                            tools:text="1001 Pa" />
+
+                        <ImageView
+                            android:id="@+id/imageView6"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_marginRight="8dp"
+                            android:layout_weight="0"
+                            app:srcCompat="@drawable/humidity_icon" />
 
                         <TextView
                             android:id="@+id/textHumidity"
@@ -158,8 +172,33 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="DummyText2"
-                            android:textAlignment="center"
-                            tools:text="Humidity:" />
+                            android:textAlignment="textStart"
+                            tools:text="44%" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/textView2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:paddingLeft="40dp"
+                            android:text="Pressure"
+                            android:textAlignment="textStart"
+                            android:textStyle="bold|italic" />
+
+                        <TextView
+                            android:id="@+id/textView4"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:paddingLeft="32dp"
+                            android:text="Humidity"
+                            android:textStyle="bold|italic" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -169,7 +208,7 @@
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="16dp"
                         android:layout_marginEnd="16dp"
-                        android:layout_marginBottom="16dp"
+                        android:layout_marginBottom="0dp"
                         android:orientation="horizontal"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -177,14 +216,30 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/dropDown1">
 
+                        <ImageView
+                            android:id="@+id/imageView7"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_marginRight="8dp"
+                            android:layout_weight="0"
+                            app:srcCompat="@drawable/wind_speed_icon" />
+
                         <TextView
                             android:id="@+id/textSomething1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="DummyText3"
-                            android:textAlignment="center"
-                            tools:text="Pressure:" />
+                            android:textAlignment="textStart"
+                            tools:text="33 KPH" />
+
+                        <ImageView
+                            android:id="@+id/imageView8"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_marginRight="8dp"
+                            android:layout_weight="0"
+                            app:srcCompat="@drawable/feels_like" />
 
                         <TextView
                             android:id="@+id/textSomething2"
@@ -192,8 +247,34 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="DummyText4"
-                            android:textAlignment="center"
-                            tools:text="Humidity:" />
+                            android:textAlignment="textStart"
+                            tools:text="23 °C" />
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/textView5"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:paddingLeft="40dp"
+                            android:text="Wind speed"
+                            android:textAlignment="textStart"
+                            android:textStyle="bold|italic" />
+
+                        <TextView
+                            android:id="@+id/textView6"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:paddingLeft="32dp"
+                            android:text="@string/feels_like"
+                            android:textStyle="bold|italic" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -202,6 +283,28 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/thisWeek"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/this_week"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/mainCardView"
+        android:visibility="visible" />
+
+    <TextView
+        android:id="@+id/foreCastText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/five_day_forecast"
+        app:layout_constraintStart_toStartOf="@+id/thisWeek"
+        app:layout_constraintTop_toBottomOf="@+id/thisWeek"
+        android:visibility="visible" />
 
     <include
         android:id="@+id/daysWidget"
@@ -216,10 +319,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.71"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mainCardView" />
+        app:layout_constraintTop_toBottomOf="@+id/foreCastText"
+        android:visibility="visible" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/poweredBy"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -230,6 +334,40 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/daysWidget"
         app:layout_constraintStart_toStartOf="@+id/daysWidget"
-        app:layout_constraintTop_toBottomOf="@+id/daysWidget" />
+        app:layout_constraintTop_toBottomOf="@+id/daysWidget"
+        android:visibility="visible" />
+
+    <FrameLayout
+        android:id="@+id/layoutDisconnected"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/imageDc"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                app:srcCompat="@drawable/disconnected" />
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/disconnected"
+                android:textSize="22sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
