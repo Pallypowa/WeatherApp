@@ -12,15 +12,19 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Looper
 import android.transition.AutoTransition
+import android.transition.ChangeBounds
+import android.transition.Transition
 import android.transition.TransitionManager
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.BounceInterpolator
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.cardview.widget.CardView
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.Observer
 import com.google.android.gms.location.*
@@ -29,10 +33,10 @@ import com.myproject.weatherapp.apihandler.DownloadStatus
 import com.myproject.weatherapp.apihandler.GetWeatherData
 import com.myproject.weatherapp.apihandler.MainTempData
 import com.myproject.weatherapp.jsonparser.ParseWeatherData
-import com.myproject.weatherapp.locationhandler.GeocodingApi
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.weather_by_days.*
+import kotlinx.android.synthetic.main.weather_by_days.view.*
 import org.json.JSONObject
 import java.math.RoundingMode
 import java.time.format.DateTimeFormatter
@@ -40,8 +44,8 @@ import kotlin.math.roundToInt
 
 
 class MainActivity : AppCompatActivity(), GetWeatherData.OnDownloadComplete,
-    ParseWeatherData.OnDataAvailable,
-    GeocodingApi.OnLocationRequestComplete {
+    ParseWeatherData.OnDataAvailable {
+
     private val context = this
 
     private val TAG = "MainActivity"
@@ -52,7 +56,7 @@ class MainActivity : AppCompatActivity(), GetWeatherData.OnDownloadComplete,
 
     private var apiCachedUrl = ""
     private var apiUrl =
-        "https://api.openweathermap.org/data/2.5/forecast?q=%s&appid=23c0b25438e4564dc253352dff80e09c&units=metric" // Default is Budapest
+        "https://api.openweathermap.org/data/2.5/forecast?lat=%f&lon=%f&appid=23c0b25438e4564dc253352dff80e09c&units=metric" // Default is Budapest
     private var iconUrl = "https://openweathermap.org/img/wn/%s@2x.png"
     private var cName: String? = null
 
@@ -62,11 +66,49 @@ class MainActivity : AppCompatActivity(), GetWeatherData.OnDownloadComplete,
     // Unique int
     private var PERMISSION_ID = 1000
 
+
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        val listener = View.OnClickListener { v ->
+            val layout = v as CardView
+            val widgetId = resources.getResourceName(layout.id)
+            Log.d(TAG, "onCreate: $widgetId")
+            var dropDownView = layout.cardView1Dropdown
+            when (widgetId) {
+                "com.myproject.weatherapp:id/dayCardView1" -> dropDownView =
+                    layout.cardView1Dropdown
+                "com.myproject.weatherapp:id/dayCardView2" -> dropDownView =
+                    layout.cardView2Dropdown
+                "com.myproject.weatherapp:id/dayCardView3" -> dropDownView =
+                    layout.cardView3Dropdown
+                "com.myproject.weatherapp:id/dayCardView4" -> dropDownView =
+                    layout.cardView4Dropdown
+                "com.myproject.weatherapp:id/dayCardView5" -> dropDownView =
+                    layout.cardView5Dropdown
+            }
+
+            val changeBounds: Transition = ChangeBounds()
+            changeBounds.duration = 3000
+            changeBounds.interpolator = BounceInterpolator()
+            if (dropDownView.visibility == View.GONE) {
+                TransitionManager.beginDelayedTransition(dropDownView, changeBounds)
+                dropDownView.visibility = View.VISIBLE
+            } else {
+                TransitionManager.beginDelayedTransition(dropDownView, changeBounds)
+                dropDownView.visibility = View.GONE
+            }
+        }
+
+        daysWidget.dayCardView1.setOnClickListener(listener)
+        daysWidget.dayCardView2.setOnClickListener(listener)
+        daysWidget.dayCardView3.setOnClickListener(listener)
+        daysWidget.dayCardView4.setOnClickListener(listener)
+        daysWidget.dayCardView5.setOnClickListener(listener)
+
+        // Continuously observes internet connection
         val networkConnection = NetworkConnection(applicationContext)
         networkConnection.observe(this, Observer { isConnected ->
             if (isConnected) {
@@ -78,7 +120,6 @@ class MainActivity : AppCompatActivity(), GetWeatherData.OnDownloadComplete,
                 poweredBy.visibility = View.VISIBLE
 
                 if (degreesCelsius.text == "") getLastLocation()
-
             } else {
                 layoutDisconnected.visibility = View.VISIBLE
                 mainCardView.visibility = View.GONE
@@ -89,12 +130,13 @@ class MainActivity : AppCompatActivity(), GetWeatherData.OnDownloadComplete,
             }
         })
 
+
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
         getLastLocation()
 
         // mainCardView dropdown menu
         mainCardView.setOnClickListener {
-            Log.d(TAG, "onCreate mainCardView.setOnClickListener called")
+            //Log.d(TAG, "onCreate mainCardView.setOnClickListener called")
             if (mainDropDown.visibility == View.GONE) {
                 TransitionManager.beginDelayedTransition(mainCardView, AutoTransition())
                 mainDropDown.visibility = View.VISIBLE
@@ -106,8 +148,9 @@ class MainActivity : AppCompatActivity(), GetWeatherData.OnDownloadComplete,
                 TransitionManager.endTransitions(mainCardView)
                 dropDownArrow.setImageResource(R.drawable.dropdown_down_24)
             }
-            Log.d(TAG, "onCreate mainCardView.setOnClickListener ends")
+            //Log.d(TAG, "onCreate mainCardView.setOnClickListener ends")
         }
+
 
         //downloadUrl(apiUrl)
     }
@@ -193,11 +236,11 @@ class MainActivity : AppCompatActivity(), GetWeatherData.OnDownloadComplete,
                 //Getting the location
                 fusedLocationProviderClient.lastLocation.addOnCompleteListener { task ->
                     var location = task.result
+                    Log.d(TAG, "getLastLocation: $location")
                     if (location == null) {
                         getNewLocation()
                     } else {
-                        var downloadLocation = GeocodingApi(this)
-                        downloadLocation.execute(location)
+                        downloadUrl(apiUrl.format(location.latitude, location.longitude))
                     }
                 }
             } else {
@@ -227,8 +270,7 @@ class MainActivity : AppCompatActivity(), GetWeatherData.OnDownloadComplete,
         override fun onLocationResult(p0: LocationResult) {
             var lastLocation = p0.lastLocation
             //new location
-            var downloadLocation = GeocodingApi(getListener())
-            downloadLocation.execute(lastLocation)
+            downloadUrl(apiUrl.format(lastLocation.latitude, lastLocation.longitude))
         }
     }
 
@@ -276,9 +318,6 @@ class MainActivity : AppCompatActivity(), GetWeatherData.OnDownloadComplete,
         }
     }
 
-    override fun onLocationRequestComplete(result: String) {
-    }
-
     @RequiresApi(Build.VERSION_CODES.O)
     fun sortByDays(datas: CityDatas): HashMap<String, List<MainTempData>> {
         var dataByDays = HashMap<String, List<MainTempData>>()
@@ -307,22 +346,37 @@ class MainActivity : AppCompatActivity(), GetWeatherData.OnDownloadComplete,
         return keys
     }
 
-    // 0 - calc temperature average
-    // anything else -- calc wind average (I used -1)
-    private fun calcAverage(list: List<MainTempData>, flag: Int): Double {
+    /*
+    Pretty self explanatory. Calculates the specific average. You can specify which data's average you would like to calculate by passing it as an enum
+    E.g if I want to calc the average wind speed for the day, then I pass DataTypes.WIND and so on.
+     */
+    private fun calcSpecificAverage(list: List<MainTempData>, type: DataTypes): Double {
         var average = 0.0
-        if (flag == 0) {
-            for (temp in list) {
-                average += temp.temp
+        when (type) {
+            DataTypes.HUMIDITY -> {
+                for (temp in list) {
+                    average += temp.humidity
+                }
             }
-        } else {
-            for (temp in list) {
-                average += temp.windSpeed
+            DataTypes.PRESSURE -> {
+                for (temp in list) {
+                    average += temp.pressure
+                }
+            }
+            DataTypes.WIND -> {
+                for (temp in list) {
+                    average += temp.windSpeed
+                }
+            }
+            DataTypes.TEMPERATURE -> {
+                for (temp in list) {
+                    average += temp.temp
+                }
             }
         }
         return (average / list.size)
-    }
 
+    }
 
     private fun mostFrequentIcon(datas: List<MainTempData>): String? {
         var counter = HashMap<String, Int?>()
@@ -374,11 +428,52 @@ class MainActivity : AppCompatActivity(), GetWeatherData.OnDownloadComplete,
         day4ID.text = keys.get(3).toLowerCase().subSequence(0, 3)
         day5ID.text = keys.get(4).toLowerCase().subSequence(0, 3)
 
-        temperatureDay1.text = calcAverage(datas[keys[0]]!!, 0).toInt().toString() + CELSIUS
-        temperatureDay2.text = calcAverage(datas[keys[1]]!!, 0).toInt().toString() + CELSIUS
-        temperatureDay3.text = calcAverage(datas[keys[2]]!!, 0).toInt().toString() + CELSIUS
-        temperatureDay4.text = calcAverage(datas[keys[3]]!!, 0).toInt().toString() + CELSIUS
-        temperatureDay5.text = calcAverage(datas[keys[4]]!!, 0).toInt().toString() + CELSIUS
+        // Temps
+        temperatureDay1.text = calcSpecificAverage(datas[keys[0]]!!, DataTypes.TEMPERATURE).toInt()
+            .toString() + CELSIUS
+        temperatureDay2.text = calcSpecificAverage(datas[keys[1]]!!, DataTypes.TEMPERATURE).toInt()
+            .toString() + CELSIUS
+        temperatureDay3.text = calcSpecificAverage(datas[keys[2]]!!, DataTypes.TEMPERATURE).toInt()
+            .toString() + CELSIUS
+        temperatureDay4.text = calcSpecificAverage(datas[keys[3]]!!, DataTypes.TEMPERATURE).toInt()
+            .toString() + CELSIUS
+        temperatureDay5.text = calcSpecificAverage(datas[keys[4]]!!, DataTypes.TEMPERATURE).toInt()
+            .toString() + CELSIUS
+
+        textPressure1.text =
+            calcSpecificAverage(datas[keys[0]]!!, DataTypes.PRESSURE).toInt().toString() + " Pa"
+        textPressure2.text =
+            calcSpecificAverage(datas[keys[1]]!!, DataTypes.PRESSURE).toInt().toString() + " Pa"
+        textPressure3.text =
+            calcSpecificAverage(datas[keys[2]]!!, DataTypes.PRESSURE).toInt().toString() + " Pa"
+        textPressure4.text =
+            calcSpecificAverage(datas[keys[3]]!!, DataTypes.PRESSURE).toInt().toString() + " Pa"
+        textPressure5.text =
+            calcSpecificAverage(datas[keys[4]]!!, DataTypes.PRESSURE).toInt().toString() + " Pa"
+
+
+        textHumidity1.text =
+            calcSpecificAverage(datas[keys[0]]!!, DataTypes.HUMIDITY).toInt().toString() + " %"
+        textHumidity2.text =
+            calcSpecificAverage(datas[keys[1]]!!, DataTypes.HUMIDITY).toInt().toString() + " %"
+        textHumidity3.text =
+            calcSpecificAverage(datas[keys[2]]!!, DataTypes.HUMIDITY).toInt().toString() + " %"
+        textHumidity4.text =
+            calcSpecificAverage(datas[keys[3]]!!, DataTypes.HUMIDITY).toInt().toString() + " %"
+        textHumidity5.text =
+            calcSpecificAverage(datas[keys[4]]!!, DataTypes.HUMIDITY).toInt().toString() + " %"
+
+
+        textWind1.text =
+            calcSpecificAverage(datas[keys[0]]!!, DataTypes.WIND).toInt().toString() + " KPH"
+        textWind2.text =
+            calcSpecificAverage(datas[keys[1]]!!, DataTypes.WIND).toInt().toString() + " KPH"
+        textWind3.text =
+            calcSpecificAverage(datas[keys[2]]!!, DataTypes.WIND).toInt().toString() + " KPH"
+        textWind4.text =
+            calcSpecificAverage(datas[keys[3]]!!, DataTypes.WIND).toInt().toString() + " KPH"
+        textWind5.text =
+            calcSpecificAverage(datas[keys[4]]!!, DataTypes.WIND).toInt().toString() + " KPH"
         loadImagesToDays(keys, datas)
 
         //Log.d(TAG, "loadDataToDays: $}")
@@ -402,7 +497,7 @@ class MainActivity : AppCompatActivity(), GetWeatherData.OnDownloadComplete,
         //Log.d(TAG, "onDataAvailable: ${sortedData["THURSDAY"]}")
         var keys = getKeys(data.getAllDAta())
         weatherDescription.text = DESC_TEXT.format(data.getWeatherData(0).tempMax.roundToInt()) +
-                "${calcAverage(dailyData[keys[0]]!!, -1).toBigDecimal()
+                "${calcSpecificAverage(dailyData[keys[0]]!!, DataTypes.WIND).toBigDecimal()
                     .setScale(2, RoundingMode.HALF_EVEN)} KPH"
 
         Picasso.get().load(iconUrl.format(data.getWeatherData(0).icon))
