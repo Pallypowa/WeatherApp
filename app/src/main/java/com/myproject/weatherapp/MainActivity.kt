@@ -12,15 +12,12 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Looper
 import android.transition.AutoTransition
-import android.transition.ChangeBounds
-import android.transition.Transition
 import android.transition.TransitionManager
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.BounceInterpolator
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -32,6 +29,7 @@ import com.myproject.weatherapp.apihandler.CityDatas
 import com.myproject.weatherapp.apihandler.DownloadStatus
 import com.myproject.weatherapp.apihandler.GetWeatherData
 import com.myproject.weatherapp.apihandler.MainTempData
+import com.myproject.weatherapp.database.DataBaseHandler
 import com.myproject.weatherapp.jsonparser.ParseWeatherData
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_main.*
@@ -45,8 +43,6 @@ import kotlin.math.roundToInt
 
 class MainActivity : AppCompatActivity(), GetWeatherData.OnDownloadComplete,
     ParseWeatherData.OnDataAvailable {
-
-    private val context = this
 
     private val TAG = "MainActivity"
     private val CELSIUS = " °C"
@@ -72,6 +68,14 @@ class MainActivity : AppCompatActivity(), GetWeatherData.OnDownloadComplete,
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        val database = DataBaseHandler(this)
+
+
+//        database.insertData()
+//        database.insertData()
+//        database.insertData()
+//        database.insertData()
+        // Dropdown for "days" cards
         val listener = View.OnClickListener { v ->
             val layout = v as CardView
             val widgetId = resources.getResourceName(layout.id)
@@ -90,14 +94,11 @@ class MainActivity : AppCompatActivity(), GetWeatherData.OnDownloadComplete,
                     layout.cardView5Dropdown
             }
 
-            val changeBounds: Transition = ChangeBounds()
-            changeBounds.duration = 3000
-            changeBounds.interpolator = BounceInterpolator()
             if (dropDownView.visibility == View.GONE) {
-                TransitionManager.beginDelayedTransition(dropDownView, changeBounds)
+                TransitionManager.beginDelayedTransition(dropDownView, AutoTransition())
                 dropDownView.visibility = View.VISIBLE
             } else {
-                TransitionManager.beginDelayedTransition(dropDownView, changeBounds)
+                TransitionManager.beginDelayedTransition(dropDownView, AutoTransition())
                 dropDownView.visibility = View.GONE
             }
         }
@@ -274,23 +275,6 @@ class MainActivity : AppCompatActivity(), GetWeatherData.OnDownloadComplete,
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.cities_menu, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        apiUrl = when (item.itemId) {
-            R.id.budapest -> "https://api.openweathermap.org/data/2.5/forecast?q=Budapest&appid=23c0b25438e4564dc253352dff80e09c&units=metric"
-            R.id.debrecen -> "https://api.openweathermap.org/data/2.5/forecast?q=Debrecen&appid=23c0b25438e4564dc253352dff80e09c&units=metric"
-            R.id.veszprem -> "https://api.openweathermap.org/data/2.5/forecast?q=Veszprem&appid=23c0b25438e4564dc253352dff80e09c&units=metric"
-            else -> return super.onOptionsItemSelected(item)
-        }
-
-        downloadUrl(apiUrl)
-        return true
-    }
-
     private fun downloadUrl(apiUrl: String) {
         Log.d(TAG, "downloadUrl starting AsyncTask")
 
@@ -422,11 +406,11 @@ class MainActivity : AppCompatActivity(), GetWeatherData.OnDownloadComplete,
 
     // Loads the data to the CardViews
     private fun loadDataToDays(keys: List<String>, datas: HashMap<String, List<MainTempData>>) {
-        day1ID.text = keys.get(0).toLowerCase().subSequence(0, 3)
-        day2ID.text = keys.get(1).toLowerCase().subSequence(0, 3)
-        day3ID.text = keys.get(2).toLowerCase().subSequence(0, 3)
-        day4ID.text = keys.get(3).toLowerCase().subSequence(0, 3)
-        day5ID.text = keys.get(4).toLowerCase().subSequence(0, 3)
+        day1ID.text = keys[0].toLowerCase().subSequence(0, 3)
+        day2ID.text = keys[1].toLowerCase().subSequence(0, 3)
+        day3ID.text = keys[2].toLowerCase().subSequence(0, 3)
+        day4ID.text = keys[3].toLowerCase().subSequence(0, 3)
+        day5ID.text = keys[4].toLowerCase().subSequence(0, 3)
 
         // Temps
         temperatureDay1.text = calcSpecificAverage(datas[keys[0]]!!, DataTypes.TEMPERATURE).toInt()
