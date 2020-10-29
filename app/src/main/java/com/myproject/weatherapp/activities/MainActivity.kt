@@ -1,8 +1,9 @@
-package com.myproject.weatherapp
+package com.myproject.weatherapp.activities
 
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.LocationManager
 import android.net.ConnectivityManager
@@ -21,8 +22,9 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.core.app.ActivityCompat
-import androidx.lifecycle.Observer
 import com.google.android.gms.location.*
+import com.myproject.weatherapp.DataTypes
+import com.myproject.weatherapp.R
 import com.myproject.weatherapp.apihandler.CityDatas
 import com.myproject.weatherapp.apihandler.DownloadStatus
 import com.myproject.weatherapp.apihandler.GetWeatherData
@@ -36,8 +38,6 @@ import kotlinx.android.synthetic.main.weather_by_days.*
 import kotlinx.android.synthetic.main.weather_by_days.view.*
 import org.json.JSONObject
 import java.math.RoundingMode
-import java.time.LocalDateTime
-import java.time.Month
 import java.time.format.DateTimeFormatter
 import kotlin.math.roundToInt
 
@@ -98,6 +98,11 @@ class MainActivity : AppCompatActivity(), GetWeatherData.OnDownloadComplete,
             }
         }
 
+        btnStatistics.setOnClickListener {
+            var intent = Intent(this, StatisticsActivity::class.java)
+            startActivity(intent)
+        }
+
         daysWidget.dayCardView1.setOnClickListener(listener)
         daysWidget.dayCardView2.setOnClickListener(listener)
         daysWidget.dayCardView3.setOnClickListener(listener)
@@ -105,26 +110,26 @@ class MainActivity : AppCompatActivity(), GetWeatherData.OnDownloadComplete,
         daysWidget.dayCardView5.setOnClickListener(listener)
 
         // Continuously observes internet connection
-        val networkConnection = NetworkConnection(applicationContext)
-        networkConnection.observe(this, Observer { isConnected ->
-            if (isConnected) {
-                layoutDisconnected.visibility = View.GONE
-                mainCardView.visibility = View.VISIBLE
-                thisWeek.visibility = View.VISIBLE
-                foreCastText.visibility = View.VISIBLE
-                daysWidget.visibility = View.VISIBLE
-                poweredBy.visibility = View.VISIBLE
-
-                if (degreesCelsius.text == "") getLastLocation()
-            } else {
-                layoutDisconnected.visibility = View.VISIBLE
-                mainCardView.visibility = View.GONE
-                thisWeek.visibility = View.GONE
-                foreCastText.visibility = View.GONE
-                daysWidget.visibility = View.GONE
-                poweredBy.visibility = View.GONE
-            }
-        })
+//        val networkConnection = NetworkConnection(applicationContext)
+//        networkConnection.observe(this, Observer { isConnected ->
+//            if (isConnected) {
+//                layoutDisconnected.visibility = View.GONE
+//                mainCardView.visibility = View.VISIBLE
+//                thisWeek.visibility = View.VISIBLE
+//                foreCastText.visibility = View.VISIBLE
+//                daysWidget.visibility = View.VISIBLE
+//                poweredBy.visibility = View.VISIBLE
+//
+//                if (degreesCelsius.text == "") getLastLocation()
+//            } else {
+//                layoutDisconnected.visibility = View.VISIBLE
+//                mainCardView.visibility = View.GONE
+//                thisWeek.visibility = View.GONE
+//                foreCastText.visibility = View.GONE
+//                daysWidget.visibility = View.GONE
+//                poweredBy.visibility = View.GONE
+//            }
+//        })
 
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
@@ -380,21 +385,31 @@ class MainActivity : AppCompatActivity(), GetWeatherData.OnDownloadComplete,
     ): Unit {
         //today
         Picasso.get().load(iconUrl.format(mostFrequentIcon(datas[keys[0]]!!)))
-            .error(R.drawable.temperature).placeholder(R.drawable.loading).into(imageView1)
+            .error(R.drawable.temperature).placeholder(
+                R.drawable.loading
+            ).into(imageView1)
 
         //tomorrow
         Picasso.get().load(iconUrl.format(mostFrequentIcon(datas[keys[1]]!!)))
-            .error(R.drawable.temperature).placeholder(R.drawable.loading).into(imageView2)
+            .error(R.drawable.temperature).placeholder(
+                R.drawable.loading
+            ).into(imageView2)
 
         //etc...
         Picasso.get().load(iconUrl.format(mostFrequentIcon(datas[keys[2]]!!)))
-            .error(R.drawable.temperature).placeholder(R.drawable.loading).into(imageView3)
+            .error(R.drawable.temperature).placeholder(
+                R.drawable.loading
+            ).into(imageView3)
 
         Picasso.get().load(iconUrl.format(mostFrequentIcon(datas[keys[3]]!!)))
-            .error(R.drawable.temperature).placeholder(R.drawable.loading).into(imageView4)
+            .error(R.drawable.temperature).placeholder(
+                R.drawable.loading
+            ).into(imageView4)
 
         Picasso.get().load(iconUrl.format(mostFrequentIcon(datas[keys[4]]!!)))
-            .error(R.drawable.temperature).placeholder(R.drawable.loading).into(imageView5)
+            .error(R.drawable.temperature).placeholder(
+                R.drawable.loading
+            ).into(imageView5)
 
         return
     }
@@ -408,51 +423,111 @@ class MainActivity : AppCompatActivity(), GetWeatherData.OnDownloadComplete,
         day5ID.text = keys[4].toLowerCase().subSequence(0, 3)
 
         // Temps
-        temperatureDay1.text = calcSpecificAverage(datas[keys[0]]!!, DataTypes.TEMPERATURE).toInt()
+        temperatureDay1.text = calcSpecificAverage(
+            datas[keys[0]]!!,
+            DataTypes.TEMPERATURE
+        ).toInt()
             .toString() + CELSIUS
-        temperatureDay2.text = calcSpecificAverage(datas[keys[1]]!!, DataTypes.TEMPERATURE).toInt()
+        temperatureDay2.text = calcSpecificAverage(
+            datas[keys[1]]!!,
+            DataTypes.TEMPERATURE
+        ).toInt()
             .toString() + CELSIUS
-        temperatureDay3.text = calcSpecificAverage(datas[keys[2]]!!, DataTypes.TEMPERATURE).toInt()
+        temperatureDay3.text = calcSpecificAverage(
+            datas[keys[2]]!!,
+            DataTypes.TEMPERATURE
+        ).toInt()
             .toString() + CELSIUS
-        temperatureDay4.text = calcSpecificAverage(datas[keys[3]]!!, DataTypes.TEMPERATURE).toInt()
+        temperatureDay4.text = calcSpecificAverage(
+            datas[keys[3]]!!,
+            DataTypes.TEMPERATURE
+        ).toInt()
             .toString() + CELSIUS
-        temperatureDay5.text = calcSpecificAverage(datas[keys[4]]!!, DataTypes.TEMPERATURE).toInt()
+        temperatureDay5.text = calcSpecificAverage(
+            datas[keys[4]]!!,
+            DataTypes.TEMPERATURE
+        ).toInt()
             .toString() + CELSIUS
 
         textPressure1.text =
-            calcSpecificAverage(datas[keys[0]]!!, DataTypes.PRESSURE).toInt().toString() + " Pa"
+            calcSpecificAverage(
+                datas[keys[0]]!!,
+                DataTypes.PRESSURE
+            ).toInt().toString() + " Pa"
         textPressure2.text =
-            calcSpecificAverage(datas[keys[1]]!!, DataTypes.PRESSURE).toInt().toString() + " Pa"
+            calcSpecificAverage(
+                datas[keys[1]]!!,
+                DataTypes.PRESSURE
+            ).toInt().toString() + " Pa"
         textPressure3.text =
-            calcSpecificAverage(datas[keys[2]]!!, DataTypes.PRESSURE).toInt().toString() + " Pa"
+            calcSpecificAverage(
+                datas[keys[2]]!!,
+                DataTypes.PRESSURE
+            ).toInt().toString() + " Pa"
         textPressure4.text =
-            calcSpecificAverage(datas[keys[3]]!!, DataTypes.PRESSURE).toInt().toString() + " Pa"
+            calcSpecificAverage(
+                datas[keys[3]]!!,
+                DataTypes.PRESSURE
+            ).toInt().toString() + " Pa"
         textPressure5.text =
-            calcSpecificAverage(datas[keys[4]]!!, DataTypes.PRESSURE).toInt().toString() + " Pa"
+            calcSpecificAverage(
+                datas[keys[4]]!!,
+                DataTypes.PRESSURE
+            ).toInt().toString() + " Pa"
 
 
         textHumidity1.text =
-            calcSpecificAverage(datas[keys[0]]!!, DataTypes.HUMIDITY).toInt().toString() + " %"
+            calcSpecificAverage(
+                datas[keys[0]]!!,
+                DataTypes.HUMIDITY
+            ).toInt().toString() + " %"
         textHumidity2.text =
-            calcSpecificAverage(datas[keys[1]]!!, DataTypes.HUMIDITY).toInt().toString() + " %"
+            calcSpecificAverage(
+                datas[keys[1]]!!,
+                DataTypes.HUMIDITY
+            ).toInt().toString() + " %"
         textHumidity3.text =
-            calcSpecificAverage(datas[keys[2]]!!, DataTypes.HUMIDITY).toInt().toString() + " %"
+            calcSpecificAverage(
+                datas[keys[2]]!!,
+                DataTypes.HUMIDITY
+            ).toInt().toString() + " %"
         textHumidity4.text =
-            calcSpecificAverage(datas[keys[3]]!!, DataTypes.HUMIDITY).toInt().toString() + " %"
+            calcSpecificAverage(
+                datas[keys[3]]!!,
+                DataTypes.HUMIDITY
+            ).toInt().toString() + " %"
         textHumidity5.text =
-            calcSpecificAverage(datas[keys[4]]!!, DataTypes.HUMIDITY).toInt().toString() + " %"
+            calcSpecificAverage(
+                datas[keys[4]]!!,
+                DataTypes.HUMIDITY
+            ).toInt().toString() + " %"
 
 
         textWind1.text =
-            calcSpecificAverage(datas[keys[0]]!!, DataTypes.WIND).toInt().toString() + " KPH"
+            calcSpecificAverage(
+                datas[keys[0]]!!,
+                DataTypes.WIND
+            ).toInt().toString() + " KPH"
         textWind2.text =
-            calcSpecificAverage(datas[keys[1]]!!, DataTypes.WIND).toInt().toString() + " KPH"
+            calcSpecificAverage(
+                datas[keys[1]]!!,
+                DataTypes.WIND
+            ).toInt().toString() + " KPH"
         textWind3.text =
-            calcSpecificAverage(datas[keys[2]]!!, DataTypes.WIND).toInt().toString() + " KPH"
+            calcSpecificAverage(
+                datas[keys[2]]!!,
+                DataTypes.WIND
+            ).toInt().toString() + " KPH"
         textWind4.text =
-            calcSpecificAverage(datas[keys[3]]!!, DataTypes.WIND).toInt().toString() + " KPH"
+            calcSpecificAverage(
+                datas[keys[3]]!!,
+                DataTypes.WIND
+            ).toInt().toString() + " KPH"
         textWind5.text =
-            calcSpecificAverage(datas[keys[4]]!!, DataTypes.WIND).toInt().toString() + " KPH"
+            calcSpecificAverage(
+                datas[keys[4]]!!,
+                DataTypes.WIND
+            ).toInt().toString() + " KPH"
         loadImagesToDays(keys, datas)
 
         //Log.d(TAG, "loadDataToDays: $}")
@@ -476,15 +551,26 @@ class MainActivity : AppCompatActivity(), GetWeatherData.OnDownloadComplete,
         //Log.d(TAG, "onDataAvailable: ${sortedData["THURSDAY"]}")
         var keys = getKeys(data.getAllDAta())
         weatherDescription.text = DESC_TEXT.format(data.getWeatherData(0).tempMax.roundToInt()) +
-                "${calcSpecificAverage(dailyData[keys[0]]!!, DataTypes.WIND).toBigDecimal()
+                "${calcSpecificAverage(
+                    dailyData[keys[0]]!!,
+                    DataTypes.WIND
+                ).toBigDecimal()
                     .setScale(2, RoundingMode.HALF_EVEN)} KPH"
 
-        var todayData = TodayData(data.getWeatherData(0).temp,data.getWeatherData(0).humidity,data.getWeatherData(0).windSpeed,data.getWeatherData(0).time)
-        val dateTime = LocalDateTime.of(2020, Month.OCTOBER, 29, 3, 15)
-        //var todayData = TodayData(12.toFloat(),12,12.toFloat(), dateTime)
-        database?.saveTodayData(todayData)
+        var todayData = TodayData(
+            data.getWeatherData(0).temp,
+            data.getWeatherData(0).humidity,
+            data.getWeatherData(0).windSpeed,
+            data.getWeatherData(0).time
+        )
+        //    val dateTime = LocalDateTime.of(2020, Month.OCTOBER, i, 3, 15)
+        //    var todayData = TodayData(12.toFloat(),12,12.toFloat(), dateTime)
+        database?.insertData(todayData)
+
         Picasso.get().load(iconUrl.format(data.getWeatherData(0).icon))
-            .error(R.drawable.temperature).placeholder(R.drawable.loading).into(todayImageView)
+            .error(R.drawable.temperature).placeholder(
+                R.drawable.loading
+            ).into(todayImageView)
         loadDataToDays(keys, dailyData)
     }
 

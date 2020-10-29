@@ -8,4 +8,6 @@
     <string name="five_day_forecast">5-day forecast</string>
     <string name="locationiq_token">2ed51fc7f9f95a</string>
     <string name="disconnected">Disconnected!</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
