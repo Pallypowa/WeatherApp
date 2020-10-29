@@ -2,8 +2,11 @@ package com.myproject.weatherapp.apihandler
 
 import android.os.AsyncTask
 import android.util.Log
+import com.myproject.weatherapp.MainActivity
+import com.myproject.weatherapp.R
 import java.lang.Exception
 import java.net.URL
+import androidx.cardview.widget.CardView as CardView1
 
 
 enum class DownloadStatus {
@@ -36,5 +39,6 @@ class GetWeatherData(private val listener:OnDownloadComplete) : AsyncTask<String
         super.onPostExecute(result)
         Log.d(TAG, "onPostExecute: $result")
         listener.onDownloadComplete(result, status, type)
+
     }
 }

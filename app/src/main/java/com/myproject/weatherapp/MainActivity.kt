@@ -14,8 +14,6 @@ import android.os.Looper
 import android.transition.AutoTransition
 import android.transition.TransitionManager
 import android.util.Log
-import android.view.Menu
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
@@ -30,6 +28,7 @@ import com.myproject.weatherapp.apihandler.DownloadStatus
 import com.myproject.weatherapp.apihandler.GetWeatherData
 import com.myproject.weatherapp.apihandler.MainTempData
 import com.myproject.weatherapp.database.DataBaseHandler
+import com.myproject.weatherapp.database.TodayData
 import com.myproject.weatherapp.jsonparser.ParseWeatherData
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_main.*
@@ -37,6 +36,8 @@ import kotlinx.android.synthetic.main.weather_by_days.*
 import kotlinx.android.synthetic.main.weather_by_days.view.*
 import org.json.JSONObject
 import java.math.RoundingMode
+import java.time.LocalDateTime
+import java.time.Month
 import java.time.format.DateTimeFormatter
 import kotlin.math.roundToInt
 
@@ -62,19 +63,13 @@ class MainActivity : AppCompatActivity(), GetWeatherData.OnDownloadComplete,
     // Unique int
     private var PERMISSION_ID = 1000
 
-
+    var database: DataBaseHandler? = null
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        database = DataBaseHandler(this)
 
-        val database = DataBaseHandler(this)
-
-
-//        database.insertData()
-//        database.insertData()
-//        database.insertData()
-//        database.insertData()
         // Dropdown for "days" cards
         val listener = View.OnClickListener { v ->
             val layout = v as CardView
@@ -484,6 +479,10 @@ class MainActivity : AppCompatActivity(), GetWeatherData.OnDownloadComplete,
                 "${calcSpecificAverage(dailyData[keys[0]]!!, DataTypes.WIND).toBigDecimal()
                     .setScale(2, RoundingMode.HALF_EVEN)} KPH"
 
+        var todayData = TodayData(data.getWeatherData(0).temp,data.getWeatherData(0).humidity,data.getWeatherData(0).windSpeed,data.getWeatherData(0).time)
+        val dateTime = LocalDateTime.of(2020, Month.OCTOBER, 29, 3, 15)
+        //var todayData = TodayData(12.toFloat(),12,12.toFloat(), dateTime)
+        database?.saveTodayData(todayData)
         Picasso.get().load(iconUrl.format(data.getWeatherData(0).icon))
             .error(R.drawable.temperature).placeholder(R.drawable.loading).into(todayImageView)
         loadDataToDays(keys, dailyData)
