@@ -1,32 +1,59 @@
 package com.myproject.weatherapp
 
+import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.github.mikephil.charting.animation.Easing
+import com.github.mikephil.charting.components.XAxis
+import com.github.mikephil.charting.components.YAxis
+import com.github.mikephil.charting.data.Entry
+import com.github.mikephil.charting.data.LineData
+import com.github.mikephil.charting.data.LineDataSet
+import com.myproject.weatherapp.database.ChartData
+import com.myproject.weatherapp.database.DataBaseHandler
+import kotlinx.android.synthetic.main.fragment_temperature.*
+import kotlinx.android.synthetic.main.fragment_wind_speed.*
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [WindSpeedFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class WindSpeedFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-
+    lateinit var database: DataBaseHandler
+    lateinit var chartDatas: MutableList<ChartData>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+        database = DataBaseHandler(this.activity!!.applicationContext)
+        chartDatas = database.readData()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        val entries = ArrayList<Entry>()
+        for (i in 0 until chartDatas.size) {
+            entries.add(Entry(chartDatas[i].day.toFloat(), chartDatas[i].windSpeed))
         }
+
+        val line1 = LineDataSet(entries, "Wind speed")
+        //line1.mode = LineDataSet.Mode.CUBIC_BEZIER
+        line1.color = Color.BLUE
+        line1.setDrawValues(false)
+        line1.setDrawFilled(true)
+        line1.lineWidth = 3f
+        line1.fillColor = Color.BLUE
+        lineChartWind.xAxis.labelRotationAngle = 0f
+        lineChartWind.axisRight.isEnabled = true
+        lineChartWind.setTouchEnabled(true)
+        lineChartWind.setPinchZoom(true)
+        line1.axisDependency = YAxis.AxisDependency.LEFT
+        lineChartWind.xAxis.textSize = 5f
+        lineChartWind.xAxis.position = XAxis.XAxisPosition.BOTTOM
+        lineChartWind.xAxis.textSize = 5f
+        lineChartWind.axisLeft.mAxisMinimum = 50f
+        lineChartWind.axisLeft.mAxisMaximum = -20f
+        lineChartWind.axisLeft.mAxisRange = 70f
+        lineChartWind.description.text = "WindSpeed in the last 14 days"
+        lineChartWind.data = LineData(line1)
     }
 
     override fun onCreateView(
@@ -37,23 +64,5 @@ class WindSpeedFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_wind_speed, container, false)
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment WindSpeedFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            WindSpeedFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
-    }
+
 }

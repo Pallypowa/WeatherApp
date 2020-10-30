@@ -1,66 +1,59 @@
 package com.myproject.weatherapp
 
 
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.github.mikephil.charting.animation.Easing
+import com.github.mikephil.charting.components.XAxis
+import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
+import com.myproject.weatherapp.database.ChartData
+import com.myproject.weatherapp.database.DataBaseHandler
 import kotlinx.android.synthetic.main.fragment_temperature.*
 
 
 class TemperatureFragment : Fragment() {
+    lateinit var database: DataBaseHandler
+    lateinit var chartDatas: MutableList<ChartData>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.d("Fragment", "onCreate: asd")
-
+        database = DataBaseHandler(this.activity!!.applicationContext)
+        chartDatas = database.readData()
     }
 
     override fun onStart() {
         super.onStart()
         val entries = ArrayList<Entry>()
+        for (i in 0 until chartDatas.size) {
+            entries.add(Entry(chartDatas[i].day.toFloat(), chartDatas[i].temp))
+        }
 
-//Part2
-        entries.add(Entry(1f, 10f))
-        entries.add(Entry(2f, 2f))
-        entries.add(Entry(3f, 7f))
-        entries.add(Entry(4f, 20f))
-        entries.add(Entry(5f, 16f))
-
-//Part3
-        val vl = LineDataSet(entries, "My Type")
-
-//Part4
-        vl.setDrawValues(false)
-        vl.setDrawFilled(true)
-        vl.lineWidth = 3f
-        vl.fillColor = R.color.colorAccent
-        vl.fillAlpha = R.color.colorPrimary
-        Log.d("Fragment", "onCreate: asd2")
-
-//Part5
+        val line1 = LineDataSet(entries, "Temperature")
+        line1.color = Color.RED
+        line1.setDrawValues(false)
+        line1.setDrawFilled(true)
+        line1.lineWidth = 3f
+        line1.fillColor = Color.RED
         lineChart.xAxis.labelRotationAngle = 0f
-        Log.d("Fragment", "onCreate: asd3")
-
-//Part6
-        lineChart.data = LineData(vl)
-
-//Part7
-        lineChart.axisRight.isEnabled = false
-        lineChart.xAxis.axisMaximum = 1 + 0.1f
-
-//Part8
+        lineChart.axisRight.isEnabled = true
         lineChart.setTouchEnabled(true)
         lineChart.setPinchZoom(true)
-
-//Part9
-        lineChart.description.text = "Days"
-        lineChart.setNoDataText("No forex yet!")
-
+        line1.axisDependency = YAxis.AxisDependency.LEFT
+        lineChart.xAxis.textSize = 5f
+        lineChart.xAxis.position = XAxis.XAxisPosition.BOTTOM
+        lineChart.xAxis.textSize = 5f
+        lineChart.axisLeft.mAxisMinimum = 50f
+        lineChart.axisLeft.mAxisMaximum = -20f
+        lineChart.axisLeft.mAxisRange = 70f
+        lineChart.description.text = "Temperature in the last 14 days"
+        lineChart.data = LineData(line1)
     }
 
     override fun onCreateView(

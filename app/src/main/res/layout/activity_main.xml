@@ -329,10 +329,11 @@
 
         <Button
             android:id="@+id/btnStatistics"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
+            android:background="#774C3F"
             android:text="View statistics"
             app:layout_constraintBottom_toTopOf="@+id/poweredBy"
             app:layout_constraintEnd_toEndOf="@+id/daysWidget"

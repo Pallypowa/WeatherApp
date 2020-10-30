@@ -108,7 +108,7 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE
     fun readData() : MutableList<ChartData> { //visszaadja a tábla összes rekordját listában tárolva
         var dataList : MutableList<ChartData> = ArrayList()
         val db = this.readableDatabase
-        val query = "SELECT * FROM WEATHER_TABLE"
+        val query = "SELECT * FROM $WEATHER_TABLE"
         val result = db.rawQuery(query, null)
         if(result.moveToFirst()){
             do{

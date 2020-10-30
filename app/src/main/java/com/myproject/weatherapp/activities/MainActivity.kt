@@ -565,7 +565,7 @@ class MainActivity : AppCompatActivity(), GetWeatherData.OnDownloadComplete,
         )
         //    val dateTime = LocalDateTime.of(2020, Month.OCTOBER, i, 3, 15)
         //    var todayData = TodayData(12.toFloat(),12,12.toFloat(), dateTime)
-        database?.insertData(todayData)
+        database?.saveTodayData(todayData)
 
         Picasso.get().load(iconUrl.format(data.getWeatherData(0).icon))
             .error(R.drawable.temperature).placeholder(

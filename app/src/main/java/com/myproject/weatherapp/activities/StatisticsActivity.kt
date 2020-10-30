@@ -1,9 +1,8 @@
 package com.myproject.weatherapp.activities
 
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.TabHost
-import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
 import com.myproject.weatherapp.R
 import kotlinx.android.synthetic.main.activity_statistics.*
